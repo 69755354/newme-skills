@@ -1,0 +1,93 @@
+{
+  "_说明": "三平台发布方案（方案.json）字段模板。复制成 publish_plan_<选题>.json 再填。所有 _注 开头的键都是给人看的说明，脚本不读。三平台文案必须**分叉写**，不许复制粘贴 —— 同质内容会被判搬运降权。",
+  "_注_用法": "python3 newme_post.py publish_plan_<选题>.json                 → fill：三平台都填、都不发（回归）\npython3 newme_post.py publish_plan_<选题>.json --mode publish  → 真发（定时 北京 19:30）\npython3 newme_post.py publish_plan_<选题>.json --only douyin   → 只跑一个平台\n⛔ 不要用 newme_publish.py / publish_options.py（早期通用版，判据有假阳性，已 DEPRECATED）",
+
+  "video": "投放版.mp4",
+  "_注_video": "响度归一到 -14 LUFS 左右的**投放版**。别发剪映直出（约 -17，比平台推荐低 3 dB，观众会觉得声音小）。相对路径按脚本所在目录解析，也可 --video 覆盖。",
+
+  "schedule_bj_time": "19:30",
+  "_注_schedule_bj_time": "**北京时间**，各平台可各自覆盖。脚本会先用 CDP 把浏览器时区覆盖成 Asia/Shanghai（本机在迪拜 UTC+4，不覆盖会差 4 小时）。日期由脚本算：今天该点还差 ≥150 分钟就用今天，否则顺延。",
+
+  "weixin": {
+    "_注_平台": "微信视频号。表单只存在于 wujie 沙箱 iframe 的代理 document 里：顶层查不到任何 input，必须 frame.evaluate 取坐标 + 真鼠标/键盘输入。",
+
+    "short_title": "≤16字，显示在作品卡片上",
+    "desc": "描述正文 ≤1000字。第一行就要说清痛点，视频号折叠得很狠。",
+    "topics": ["智能家居", "KNX", "迪拜"],
+    "_注_topics": "真判据是编辑器里的 div[data-mention] 节点，不是页面上有 #文本。只能按 Enter 选中候选（鼠标点会让编辑器失焦）。视频号话题库很浅，冷词（KNX）大概率没候选，日志会标「降级为纯文字」= 那条等于没有话题。",
+
+    "location": "不显示位置",
+    "_注_location": "视频号 POI 按出口 IP 猜，搜「迪拜」出来的是阿布扎比同名店 —— 所以固定选「不显示位置」。",
+
+    "collection": "",
+    "_注_collection": "合集名必须**事先在后台建好**，脚本只能从下拉里选已有的。留空 = 跳过。",
+
+    "declare_original": true,
+    "_注_declare_original": "「声明原创」。账号没有原创权限时点了不生效，日志会报需人工确认。",
+
+    "schedule": true,
+    "schedule_bj_time": "19:30",
+    "_注_schedule": "定时必须真写进 Vue 模型才算数：判据是 mp-date-picker.__vue__.pick 时间戳。内层「请选择时间」小框要用真键盘打再 Enter，只改外层 readonly 框的 value 模型仍是默认 03:00。定时最远能排 32 天。schedule=false → 立即发布。",
+
+    "first_comment": "",
+    "_注_first_comment": "视频号后台**没有置顶入口**，只能在手机 App 长按置顶；脚本最多帮你把评论发出去。"
+  },
+
+  "xiaohongshu": {
+    "_注_平台": "小红书创作服务平台。⚠️ 必须走 creator.rednote.com，大陆域名会 401 踢回登录页。表单是 light DOM，只有发布按钮在闭合 shadow 里、只能坐标点。",
+
+    "title": "≤20字，带地名和具体数字点击率明显更高",
+    "body": "正文 ≤1000字。小红书吃「决策过程 + 可抄的清单」，分点写，讲代价。",
+    "topics": ["智能家居", "迪拜", "别墅装修", "KNX", "装修避坑"],
+    "_注_topics": "话题必须回车采纳；候选浮层会显示上一次查询的残留，挑不中要继续轮询别 return。",
+
+    "location": "",
+    "_注_location": "故意留空：POI 按出口 IP 会标成阿布扎比。",
+
+    "declare_original": true,
+    "original_type": "原创",
+    "_注_declare_original": "「原创声明」是下拉选内容类型，不是复选框，而且**须先勾同意**再选。",
+
+    "schedule": true,
+    "schedule_bj_time": "19:30",
+    "_注_schedule": "时间框是 input.d-text，格式 YYYY-MM-DD HH:mm，fill 后回车。⚠️ 发布栏坐标左移 72px 是「暂存离开」（存草稿 = 没发），右移 71px 才是「发布」。",
+
+    "privacy_open": true,
+    "_注_privacy_open": "默认就是「公开可见」，脚本只做回读确认。",
+
+    "_注_草稿": "fill 模式每遍会留一条草稿，测完用 _xhs_clean_drafts.py 清（--probe 只看）。"
+  },
+
+  "douyin": {
+    "_注_平台": "抖音创作者中心。⚠️⚠️「发布」按钮**永不禁用**，平台零保险 —— 上传没完成时点下去也会发。绝不能用 disabled 判上传完成，URL 判据也有假阳性。",
+
+    "title": "≤30字，前三秒的反差要在标题里先亮出来",
+    "body": "作品简介 ≤1000字。抖音吃「反差 + 一句话结论」，别写成说明书。",
+    "topics": ["智能家居", "迪拜", "别墅设计", "全屋智能", "海外置业"],
+
+    "location": "Dubai",
+    "_注_location": "三平台里唯一能挂真实迪拜的。必须搜**英文 Dubai** 取城市级 POI；搜中文「迪拜」给的是具体商户，会报错地点。真判据是占位符「输入地理位置」消失且回读含 Dubai（不能读旁边那个永远显示「位置」的 select）。",
+
+    "collection": "",
+    "_注_collection": "semi-select，占位「请选择合集」。合集要先在后台建好；系列内容互相导流。",
+
+    "hot_topic": "",
+    "_注_hot_topic": "留空 = 不挂。宁可不挂也**不要蹭无关热点**，会被判蹭热点限流，比不挂更差。",
+
+    "cover_vertical": "封面/封面_竖3比4.jpg",
+    "cover_horizontal": "封面/封面_横4比3.jpg",
+    "_注_covers": "双封面是必须的（后台自己会弹橙色告警说建议同时设横竖封面）。真判据是裁剪窗里的「保存」真点够 2 次，不是弹窗消失。⚠️ 那个弹窗是全屏遮罩，无论成败都要关掉，否则后面定时/位置/发布全静默点空。",
+
+    "declare_original": false,
+    "_注_declare_original": "抖音**没有**「声明原创」。页面上的「自主声明」是 AI/虚构风险声明，勾了降权 —— 脚本故意不碰，记为「平台无此项」。",
+
+    "privacy_open": true,
+    "_注_privacy_open": "三行拨到最开放：谁可以看=公开、保存权限=允许、同时发布=**同时发布到**（默认是「不同时发布」，白扔一份独立推荐流）。",
+
+    "schedule": true,
+    "schedule_bj_time": "19:30",
+    "_注_schedule": "定时框 input.semi-input[placeholder='日期和时间']，可键入。⚠️ 平台要求「2 小时后 ~ 14 天内」，卡边界会被静默拒绝，所以强制留 130+ 分钟余量、不够就顺延一天，填完回读校验。",
+
+    "first_comment": ""
+  }
+}

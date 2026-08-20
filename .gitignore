@@ -1,0 +1,45 @@
+# ── 登录态 / 密钥：一条都不许进仓库 ──────────────────────────
+*state*.json
+*storage_state*
+.secrets/
+secrets/
+*.pem
+*.key
+cookies*.json
+profiles/
+*profile*/
+
+# ── 流水线运行数据（含绝对路径、账号数据，属敏感）──────────
+_pipeline/
+stats*.csv
+*选题建议*.md
+
+# ── 素材与成片：客户别墅实拍，绝不外传 ────────────────────
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.m4a
+*.wav
+*.mp3
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.pdf
+*.xlsx
+*.docx
+*.pptx
+
+# ── 只允许 examples/ 下的字段模板这一个 json ────────────────
+*.json
+!examples/*.json
+
+# ── 杂项 ────────────────────────────────────────────────
+.DS_Store
+__pycache__/
+*.pyc
+*.log
+_probe*
+_历史版本/
