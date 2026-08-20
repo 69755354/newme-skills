@@ -14,6 +14,11 @@ description: "给 NewMe（迪拜智能家居）做短视频：从素材筛查、
 - 每个平台一个专用 Chrome profile：`~/NewMe/profiles/{weixin,xiaohongshu,douyin}`。
   ⛔ 永远不要 `pkill -f chrome`，只能精确杀：
   `pkill -TERM -f "user-data-dir=$HOME/NewMe/profiles/<平台>"`。
+- 开跑/收尾的 profile 纪律只有 `profile_guard.py` 一份：`solo(PROFILE)` 开场（清自己残留、
+  别的平台在跑就 `BusyError` 停手）、`kill(PROFILE)` 收尾（回读确认真死）。
+  ⚠️ `ctx.close()` **不保证进程死** —— 视频号 ×10 跑完那个 Chrome 活了 14 分钟，
+  把接着的小红书 ×10 拖死两次；并且 ChatGPT.app 里的 Codex 副本用同一批 profile，
+  两边同时跑一样会把当前这遍打死（实测过）。
 - ⛔ 永远不要往活的 persistent profile 里 `add_cookies`（会顶掉登录态，还得重新扫码）。
 - 扫码机会很贵，别浪费；抖音密码只从 keychain 取：
   `security find-generic-password -s NewMe-douyin -a creator.douyin.com -w`。
@@ -84,7 +89,15 @@ bash _run.sh <日志名> <脚本> [参数...]     # 内部走 detach.py（os.set
 **共同**：CDP `Emulation.setTimezoneOverride {timezoneId:"Asia/Shanghai"}` 必须先做
 （本机在迪拜 UTC+4，不覆盖定时会差 4 小时），自检要看到 GMT+0800。
 **回读也要做这一步** —— 后台是按浏览器时区渲染时间的，不覆盖会把北京 19:30 记成 15:30。
-定时基准 = **北京时间 19:30**；抖音要求「2 小时后~14 天内」，留 130+ 分钟余量。
+定时基准 = **北京时间 19:30**。日期可以在方案 JSON 里指定：
+`schedule_bj_date: "2026-08-22"` + `schedule_bj_time: "19:30"`（两者都是北京时间）；
+**不写 date 时行为完全不变**，还是「明天 19:30」。
+解析与上限检查**只写在 `schedule_target.py` 一份**，三个脚本 import 它
+（同一边界写在三处已经把这个项目坑过五次），自检：`python3 schedule_target.py --selftest`。
+实测定时上限（冻结在 `WINDOW`，带绑定测试 + 阴性对照）：
+**视频号 32 天 · 小红书 14 天 · 抖音 14 天**（抖音另要求 ≥2 小时后，留 130 分钟）。
+⛔ 超出上限**报错退出**（`ScheduleError`，退码 2），不许静默顺延、不许当成功 ——
+排期超过 14 天的条目必须**分批**：先拿三平台能排的，剩下的到时候再跑一次。
 
 **视频号**（channels.weixin.qq.com，wujie 微前端）
 - 表单 DOM **只存在于 wujie 沙箱 iframe 的代理 document 里**：顶层
@@ -110,6 +123,9 @@ bash _run.sh <日志名> <脚本> [参数...]     # 内部走 detach.py（os.set
 - 标题 `input.d-text[placeholder*='填写标题']`，正文 `div.tiptap`。
 - ⛔ 发布栏里坐标左移 72px 是「暂存离开」（存草稿跳走，等于没发），右移 71px 才是「发布」。
 - 位置故意留空（POI 按出口 IP 会标成阿布扎比）。
+- **定时最远 14 天**（2026-08-21 实测：日期面板里 08-22~09-04 可点，09-05 起全灰；
+  只读探针 `xhs_schedule_horizon.py`，不上传不发表不存草稿）。它比视频号短一半，
+  所以一次能三平台齐发的只有前 14 天的那几条。
 - fill 模式**每遍留一条草稿**，测完要清：`_xhs_clean_drafts.py`（`--probe` 只看）。
   草稿箱不在笔记管理里，入口是发布页顶部「草稿箱(N)」；草稿数按「保存于YYYY-MM-DD」
   出现次数算（按「删除」按钮个数算会把确认气泡里那个多算一条）；
@@ -134,6 +150,9 @@ bash _run.sh <日志名> <脚本> [参数...]     # 内部走 detach.py（os.set
 - 位置是三平台里唯一能挂真实迪拜的：搜英文 **"Dubai"** 取城市级 POI
   （名 `Dubai`，址 دبي, الإمارات العربية المتحدة）；搜中文「迪拜」给的是具体商户，会报错地点。
 - **没有原创声明**：「自主声明」是 AI/虚构风险声明，勾了降权 → 记为「平台无此项」而非失败。
+- **定时只收 2 小时后 ~ 14 天内**：超过就 `ScheduleError` 报错退出，不许静默顺延。
+  它的日期框默认是「今天 + 一个整点」，回读必须比对到**年月日都对**（只看时分会把
+  「日期没写进去」当成功）。
 - 号里去重：`_dy_dedup.py`。作品管理行的真特征是文字含「删除作品/修改定时」
   （按"文字短"找会命中作品描述层，它不含日期 → 假阴性）。
 

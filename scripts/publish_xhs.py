@@ -36,6 +36,9 @@ import re
 import sys
 import time
 
+import profile_guard            # Chrome profile 开场/收尾的唯一实现（禁双开、防残留）
+import schedule_target          # 定时时刻的唯一实现（三平台共用，含各自上限）
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PROFILE = os.path.expanduser("~/NewMe/profiles/xiaohongshu")
 HOME = "https://creator.rednote.com/publish/publish"
@@ -502,14 +505,15 @@ def one_round(pg, plan, video, mode, stamp):
     return rec(u"回读", *verify_manage(pg, cfg.get("title") or "", stamp)), steps
 
 
-def bj_stamp(hhmm, min_ahead=45):
-    u"""目标北京时间字符串 YYYY-MM-DD HH:MM（不够 45 分钟就顺延到明天）。"""
-    now = dt.datetime.utcnow() + dt.timedelta(hours=8)
-    h, m = [int(x) for x in (hhmm or "19:30").split(":")]
-    t = now.replace(hour=h, minute=m, second=0, microsecond=0)
-    if (t - now).total_seconds() < min_ahead * 60:
-        t += dt.timedelta(days=1)
-    return t.strftime("%Y-%m-%d %H:%M")
+def bj_stamp(hhmm, ymd=None):
+    u"""目标北京时间字符串 YYYY-MM-DD HH:MM（时间框要的就是这个格式）。
+
+    ⛔ 只做字段适配：日期解析、「今天来不及顺延一天」、以及**小红书 14 天上限**
+    （2026-08-21 用 xhs_schedule_horizon.py 实测：面板只亮到今天 +14 天）
+    全在 `schedule_target.py` 那一份实现里，别在这儿再写一遍。
+    ⚠️ 时间框自己不校验上界：键入 +64 天也回读一致，所以**必须**在填之前拦。
+    ymd = 方案里的 schedule_bj_date，给了就必须排那天，超界直接抛 ScheduleError。"""
+    return schedule_target.target("xiaohongshu", hhmm, ymd)["stamp"]
 
 
 def main():
@@ -529,16 +533,23 @@ def main():
         log(u"❌ 视频不在：%s" % video)
         return 1
     cfg = plan.get("xiaohongshu") or {}
-    stamp = bj_stamp(cfg.get("schedule_bj_time") or plan.get("schedule_bj_time"))
+    try:
+        stamp = bj_stamp(cfg.get("schedule_bj_time") or plan.get("schedule_bj_time"),
+                         schedule_target.plan_date(plan, "xiaohongshu"))
+    except schedule_target.ScheduleError as e:
+        log(u"❌ 定时时刻不合法：%s" % e)
+        return 3
     log(u"视频 %s（%.1f MB）· 模式 %s · 跑 %d 遍"
         % (os.path.basename(video), os.path.getsize(video) / 1e6, a.mode, a.times))
     log(u"定时目标 北京 %s" % stamp)
 
-    # ⛔ 上一轮的 Chrome 没退干净时，Playwright 会拿到「正在现有的浏览器会话中打开」
-    #   然后直接失败。所以开跑前**只**杀这个 profile 的进程（绝不 pkill chrome）。
-    import subprocess
-    subprocess.call(["pkill", "-TERM", "-f", "user-data-dir=%s" % PROFILE])
-    time.sleep(3)
+    # 开跑前清残留 + 拦住双开（8 GB 机器同时两个 Chrome 会把这次跑挂掉）。
+    # 实现只有 profile_guard 一份，⛔ 别在这里再写 pkill。
+    try:
+        profile_guard.solo(PROFILE)
+    except profile_guard.BusyError as e:
+        log(u"❌ %s" % e)
+        return 4
 
     from playwright.sync_api import sync_playwright
     rounds = []
@@ -584,6 +595,9 @@ def main():
                     ctx.close()
                 except Exception:
                     pass
+                # ⚠️ ctx.close() 不保证进程真的死（见 profile_guard 的说明）
+                if not profile_guard.kill(PROFILE):
+                    log(u"⚠️ 这个 profile 的 Chrome 还有残留，下一个平台可能会被拖慢")
             else:
                 log(u"🖐 --keep：浏览器留着（9223），记得手动关")
                 time.sleep(600)

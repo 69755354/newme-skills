@@ -43,6 +43,9 @@ import re
 import sys
 import time
 
+import profile_guard            # Chrome profile 开场/收尾的唯一实现（禁双开、防残留）
+import schedule_target          # 定时时刻的唯一实现（三平台共用，含各自上限）
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PROFILE = os.path.expanduser("~/NewMe/profiles/weixin")
 CREATE = "https://channels.weixin.qq.com/platform/post/create"
@@ -699,18 +702,15 @@ def one_round(pg, plan, video, mode, target, up=None):
     return ok3, steps
 
 
-def bj_target(hhmm, min_ahead=45):
-    u"""目标发表时刻（北京钟点）。浏览器时区会被覆盖成上海，所以这里直接算上海时间。
-    不够 min_ahead 分钟就顺延到明天 —— 定时时间太近平台会静默拒绝。"""
-    import datetime
-    now = datetime.datetime.utcnow() + datetime.timedelta(hours=8)
-    hh, mm = [int(x) for x in (hhmm or "19:30").split(":")]
-    t = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
-    if (t - now).total_seconds() < min_ahead * 60:
-        t += datetime.timedelta(days=1)
-    epoch = int((t - datetime.datetime(1970, 1, 1)).total_seconds() - 8 * 3600) * 1000
-    return {"pick": epoch, "hhmm": t.strftime("%H:%M"), "ymd": t.strftime("%Y-%m-%d"),
-            "text": t.strftime(u"%Y年%m月%d日 %H:%M")}
+def bj_target(hhmm, ymd=None):
+    u"""目标发表时刻（北京钟点），字段还是 pick/hhmm/ymd/text 那四件套。
+
+    ⛔ 这里只做字段适配：日期解析、「今天来不及顺延一天」、以及**视频号 32 天上限**
+    的校验全在 `schedule_target.py`（三个平台共用一份，别在这里再写一遍 ——
+    schedule_target --selftest 里的哨兵绑定测试会把复制粘贴打红）。
+    ymd = 方案里的 schedule_bj_date，给了就**必须**排在那天，来不及/超界直接抛
+    ScheduleError（不静默顺延）。"""
+    return schedule_target.target("weixin", hhmm, ymd)
 
 
 def main():
@@ -730,11 +730,26 @@ def main():
     if not os.path.isfile(video):
         log(u"❌ 视频不在：%s" % video)
         return 1
-    target = bj_target((plan.get("weixin") or {}).get("schedule_bj_time")
-                       or plan.get("schedule_bj_time"))
+    try:
+        target = bj_target((plan.get("weixin") or {}).get("schedule_bj_time")
+                           or plan.get("schedule_bj_time"),
+                           schedule_target.plan_date(plan, "weixin"))
+    except schedule_target.ScheduleError as e:
+        log(u"❌ 定时时刻不合法：%s" % e)
+        return 3
     log(u"视频 %s（%.1f MB）· 模式 %s · 跑 %d 遍"
         % (os.path.basename(video), os.path.getsize(video) / 1e6, a.mode, a.times))
-    log(u"定时目标 北京 %s（pick=%s）" % (target["text"], target["pick"]))
+    log(u"定时目标 北京 %s（pick=%s · %d 天后 · 日期来自%s）"
+        % (target["text"], target["pick"], target["days_ahead"],
+           u"方案 schedule_bj_date" if target["explicit_date"] else u"脚本推算"))
+
+    # 开跑前清残留 + 拦住双开（视频号原来压根没清，跑完 Chrome 还活着，
+    # 把接着跑的小红书两次都拖死了）。实现只有 profile_guard 一份。
+    try:
+        profile_guard.solo(PROFILE)
+    except profile_guard.BusyError as e:
+        log(u"❌ %s" % e)
+        return 4
 
     from playwright.sync_api import sync_playwright
     rounds = []
@@ -776,12 +791,16 @@ def main():
                                        ensure_ascii=False, indent=1))
             except Exception:
                 pass
-            if a.mode != "publish" and not a.keep:
+            if not a.keep:
                 try:
                     ctx.close()
                 except Exception:
                     pass
-            elif a.keep:
+                # ⚠️ ctx.close() 不保证进程真的死：实测这个 Chrome 活了 14 分钟，
+                #    把接着跑的小红书回归拖死两次。必须再确认杀一遍。
+                if not profile_guard.kill(PROFILE):
+                    log(u"⚠️ 这个 profile 的 Chrome 还有残留，下一个平台可能会被拖慢")
+            else:
                 log(u"🖐 --keep：浏览器留着，用 9222 接进来查（记得手动关）")
                 time.sleep(600)
     good = len([r for r in rounds if r["ok"]])

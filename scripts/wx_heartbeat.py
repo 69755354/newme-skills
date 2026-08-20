@@ -78,15 +78,16 @@ def free_mb():
 
 
 def other_automation_running():
-    u"""别的平台的自动化浏览器在跑就让路（8 GB 机器不许双开）。"""
-    try:
-        ps = subprocess.check_output(["ps", "-axo", "command"]).decode("utf-8", "ignore")
-    except Exception:
-        return False
-    for p in ("xiaohongshu", "douyin"):
-        if "user-data-dir=%s/%s" % (os.path.expanduser("~/NewMe/profiles"), p) in ps:
-            return True
-    return False
+    u"""别的自动化在跑就让路（8 GB 机器不许双开）。判断实现在 profile_guard 一份。
+
+    ⚠️ 老版本只看「别的 profile 有没有 Chrome」，漏了一大类：发布脚本**刚起来还没开
+    浏览器**、或者正在 ffmpeg/上传阶段时，看起来没人在跑 —— 心跳就大摇大摆开一个
+    Chrome，然后那遍回归被内存拖死。所以还要看有没有 publish_*.py 进程。
+    """
+    import profile_guard
+    mine = os.path.basename(PROF)
+    others = [k for k in profile_guard.running() if k != mine]
+    return (others + profile_guard.publish_running()) or False
 
 
 def rec(d):

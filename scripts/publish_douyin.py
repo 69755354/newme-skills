@@ -49,6 +49,9 @@ import re
 import sys
 import time
 
+import profile_guard            # Chrome profile 开场/收尾的唯一实现（禁双开、防残留）
+import schedule_target          # 定时时刻的唯一实现（三平台共用，含各自上限）
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PROFILE = os.path.expanduser("~/NewMe/profiles/douyin")
 HOME = "https://creator.douyin.com/creator-micro/content/upload"
@@ -723,15 +726,16 @@ def one_round(pg, plan, video, mode, stamp):
     return all(s["ok"] for s in steps), steps
 
 
-def bj_stamp(hhmm, min_ahead=130):
-    u"""目标北京时间 YYYY-MM-DD HH:MM。抖音只收 2 小时后~14 天内，
-    所以不足 130 分钟就顺延到明天。"""
-    now = dt.datetime.utcnow() + dt.timedelta(hours=8)
-    h, m = [int(x) for x in (hhmm or "19:30").split(":")]
-    t = now.replace(hour=h, minute=m, second=0, microsecond=0)
-    if (t - now).total_seconds() < min_ahead * 60:
-        t += dt.timedelta(days=1)
-    return t.strftime("%Y-%m-%d %H:%M")
+def bj_stamp(hhmm, ymd=None):
+    u"""目标北京时间 YYYY-MM-DD HH:MM（定时框要的格式）。
+
+    ⛔ 只做字段适配：日期解析、「今天来不及顺延一天」（抖音留 130 分钟余量）、
+    以及**抖音只收 2 小时后 ~ 14 天内**这条硬边界，全在 `schedule_target.py`
+    那一份实现里，别在这儿再写一遍。
+    ⚠️ 抖音超界是**静默拒绝**（页面不报错、发布键也不禁用），所以必须在**填之前**
+    就抛 ScheduleError 退出 —— 绝不能顺延、更不能当成功。
+    ymd = 方案里的 schedule_bj_date。"""
+    return schedule_target.target("douyin", hhmm, ymd)["stamp"]
 
 
 def main():
@@ -751,15 +755,23 @@ def main():
         log(u"❌ 视频不在：%s" % video)
         return 1
     cfg = plan.get("douyin") or {}
-    stamp = bj_stamp(cfg.get("schedule_bj_time") or plan.get("schedule_bj_time"))
+    try:
+        stamp = bj_stamp(cfg.get("schedule_bj_time") or plan.get("schedule_bj_time"),
+                         schedule_target.plan_date(plan, "douyin"))
+    except schedule_target.ScheduleError as e:
+        # ⛔ 超界/太近就地停手：抖音会静默吃掉不合法的定时，填下去等于白发一条
+        log(u"❌ 定时时刻不合法：%s" % e)
+        return 3
     log(u"视频 %s（%.1f MB）· 模式 %s · 跑 %d 遍"
         % (os.path.basename(video), os.path.getsize(video) / 1e6, a.mode, a.times))
     log(u"定时目标 北京 %s" % stamp)
 
-    # ⛔ 只杀这个 profile 的 Chrome（绝不 pkill chrome）
-    import subprocess
-    subprocess.call(["pkill", "-TERM", "-f", "user-data-dir=%s" % PROFILE])
-    time.sleep(3)
+    # 开跑前清残留 + 拦住双开。实现只有 profile_guard 一份，⛔ 别在这里再写 pkill。
+    try:
+        profile_guard.solo(PROFILE)
+    except profile_guard.BusyError as e:
+        log(u"❌ %s" % e)
+        return 4
 
     from playwright.sync_api import sync_playwright
     rounds = []
@@ -807,6 +819,9 @@ def main():
                     ctx.close()
                 except Exception:
                     pass
+                # ⚠️ ctx.close() 不保证进程真的死（见 profile_guard 的说明）
+                if not profile_guard.kill(PROFILE):
+                    log(u"⚠️ 这个 profile 的 Chrome 还有残留，下一个平台可能会被拖慢")
             else:
                 log(u"🖐 --keep：浏览器留着（9224），记得手动关")
                 time.sleep(600)
