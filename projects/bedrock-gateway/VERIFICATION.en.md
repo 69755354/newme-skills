@@ -4,6 +4,10 @@
 
 ## Bilingual release checks
 
+A signed-out browser opened the public project directory and both contribution guides. Each edit link led to GitHub sign-in with the corresponding handbook file as the return destination. The access check reached the sign-in screen. The procedure for a contributor to submit a pull request follows GitHub's documented workflow. [Editing files in another user's repository](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files#editing-files-in-another-users-repository)
+
+On the live English prototype the same request key was submitted twice. The first request charged $2.00 and the second replayed the result. The downloaded CSV contained one row for TEN-017 with $82.40 due. Switching handbook languages preserved the pilot section. The customer budgets screen opened in the 390 CSS-pixel mobile preview. The published English PDF and bilingual ZIP matched the release files byte for byte. [Tested revision](https://github.com/69755354/newme-skills/commit/d7b75e8042d278f8af371bf65b7393b3203b3b98)
+
 The English and Chinese handbooks have the same 12 chapter anchors, 10 implementation tables and three diagrams. Both PDFs render to 12 A4 pages, with the two-customer pilot on page 10. All six deliverables in the bilingual ZIP matched the separate files. The seventh file, `START.html`, opens the offline language menu.
 
 The prototype passed the same 25 behaviour checks in each language. They cover request replay, limits, egress selection, suspension, customer isolation and billing. In the English demo, a sample CUR export for TEN-017 produced one customer row with $62.40 in usage, a $20.00 fee and $82.40 due.
