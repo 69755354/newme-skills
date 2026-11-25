@@ -4,7 +4,7 @@
 
 中文工程手册 · v1.1 · 2026-11-25
 
-[在线原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/) · [公开工程手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/)
+[在线原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/) · [公开工程手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/zh/)
 
 ## 客户交付要求
 
