@@ -1,5 +1,16 @@
 # 公开版本验收记录
 
+## v1.1 工程手册及下载验收
+
+2026-11-25，迪拜，[工程版本 77ff89f](https://github.com/69755354/newme-skills/commit/77ff89f9e36c173e6d53c77bf4ed0dc1c57a4f5e)。
+
+- 未登录浏览器从公开 GitHub 项目 README 点击“双客户试点验收”，到达[手册对应章节](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#pilot)。网页显示 v1.1，列明网关和 Bedrock 各自承担的工作、两种接口的分账方法及四个岗位的试验。
+- 通过公开网页下载 PDF 和 ZIP，并与 GitHub 发布版本对应文件比对。PDF 共 12 页，第 10 页为双客户试点验收。ZIP 完整性校验通过，其内 Word 有相同章节，内含 PDF 与单独下载的一致。
+- PDF 的 SHA-256 为 `9be988cd7bd09c17009be37c6d6cdd35a450d716fc56266d9bbd75c930e41086`。ZIP 的 SHA-256 为 `5d2dc17d0e05d210a86ba994db0a23536eeef0558599624de34c9da4324dc4b6`。
+- 这次核验覆盖公开交付材料。真实迪拜线路、两客户云账单、并发及隔离须由部署团队按第 10 页留证签收。
+
+## v1.0 原型与交互验收
+
 2026-11-25，迪拜。受测版本为 `4878baef03d87a3e31f6461b59a48350074f927c` 上的 15 个交付文件。[公开手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/) · [交互原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/) · [手机尺寸预览](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/mobile.html)
 
 ## 访问与下载
