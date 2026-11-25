@@ -1,6 +1,6 @@
 # Bedrock 多客户服务网关
 
-面向产品、开发、网络、财务及值班人员的中文工程交接。所有演示客户、地址、金额均为虚构数据。
+服务商在 Bedrock 之前运营独立的多客户网关。客户从各自的生产环境接入，网关管理迪拜公网出口、客户额度和结算。Bedrock 提供模型推理。所有演示数据均为虚构。
 
 **[打开公开手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/)　·　[直接操作原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/)　·　[手机尺寸预览](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/mobile.html)**
 
@@ -11,6 +11,7 @@
 | 技术架构、网络与客户身份 | [技术架构](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#architecture) · [迪拜出口](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#network) · [IAM 与企业档案](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#identity) |
 | 用量控制与账单 | [额度计算](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#quota) · [成本核对](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#billing) |
 | 运维、旧 IAM 迁移与验收 | [故障处置](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#operations) · [上线验收](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#launch) |
+| 两个客户实测出口、额度与分账 | [双客户试点验收](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#pilot) |
 | 在 GitHub 阅读完整正文 | [完整手册](docs/handbook.md) |
 | 下载交付材料 | [PDF](downloads/Bedrock_Gateway_Design_CN.pdf) · [可编辑 Word](downloads/Bedrock_Gateway_Design_CN.docx) · [ZIP](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Handoff.zip) |
 
