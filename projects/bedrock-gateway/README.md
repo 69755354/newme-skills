@@ -1,29 +1,28 @@
-# Bedrock 多客户服务网关
+# Bedrock multi-customer gateway · Bedrock 多客户服务网关
 
-服务商在 Bedrock 之前运营独立的多客户网关。客户从各自的生产环境接入，网关管理迪拜公网出口、客户额度和结算。Bedrock 提供模型推理。所有演示数据均为虚构。
-
-**[打开公开手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/)　·　[直接操作原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/)　·　[手机尺寸预览](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/mobile.html)**
-
-| 需要查看 | 入口 |
+| English | 中文 |
 | --- | --- |
-| 业务背景、范围和交付要求 | [背景与范围](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#overview) |
-| 产品页面与客户旅程 | [产品设计](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#product) |
-| 技术架构、网络与客户身份 | [技术架构](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#architecture) · [迪拜出口](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#network) · [IAM 与企业档案](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#identity) |
-| 用量控制与账单 | [额度计算](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#quota) · [成本核对](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#billing) |
-| 运维、旧 IAM 迁移与验收 | [故障处置](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#operations) · [上线验收](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#launch) |
-| 两个客户实测出口、额度与分账 | [双客户试点验收](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#pilot) |
-| 在 GitHub 阅读完整正文 | [完整手册](docs/handbook.md) |
-| 下载交付材料 | [PDF](downloads/Bedrock_Gateway_Design_CN.pdf) · [可编辑 Word](downloads/Bedrock_Gateway_Design_CN.docx) · [ZIP](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Handoff.zip) |
+| **[Engineering handbook](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/)** | **[工程手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/)** |
+| **[Interactive prototype](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/prototype/)** | **[交互原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/)** |
+| **[Propose a change](CONTRIBUTING.md#english)** | **[提交修改](CONTRIBUTING.md#中文)** |
+| [Two-customer pilot](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#pilot) | [双客户试点验收](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#pilot) |
 
-## 原型如何试用
+Customers connect from their own production environments to an independent gateway run by the service provider. The gateway controls each customer's Dubai egress IPs, budgets and billing. Amazon Bedrock runs model inference.
 
-打开在线原型，在“运营总览”发送一笔示例请求，再次提交相同幂等键可回放结果。进入“客户与额度”修改企业或服务的日预算。进入“账单核对”，导入示例 CUR 后可按客户导出 CSV。所有变更保存在当前浏览器，可随时重置演示。
+客户从各自的生产环境接入由服务商运营的独立网关。网关控制每个客户的迪拜出口 IP、用量和账单，Amazon Bedrock 负责模型推理。
 
-## 目录
+| What you need | English | 中文 |
+| --- | --- | --- |
+| Project scope and product workflow · 需求与产品 | [Requirements](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#overview) · [Customer journey](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#product) | [项目要求](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#overview) · [客户流程](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#product) |
+| Architecture, network and access · 架构与权限 | [Request path](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#architecture) · [Dubai egress](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#network) · [IAM](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#identity) | [调用链路](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#architecture) · [固定出口](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#network) · [客户身份](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#identity) |
+| Budgets and billing · 额度与分账 | [Budget controls](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#quota) · [Reconciliation](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#billing) | [额度控制](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#quota) · [账单核对](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#billing) |
+| Operations and cutover · 运维与迁移 | [Runbook](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#operations) · [Release criteria](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/#launch) | [故障处置](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#operations) · [上线验收](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/#launch) |
+| GitHub and mobile · 仓库与手机 | [Read on GitHub](docs/handbook.en.md) · [Mobile prototype](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/en/mobile.html) | [GitHub 正文](docs/handbook.md) · [手机尺寸预览](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/mobile.html) |
+| Download · 离线文件 | [PDF](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Design_EN.pdf) · [Word](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Design_EN.docx) | [PDF](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Design_CN.pdf) · [Word](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Design_CN.docx) |
+| Verification · 验收记录 | [Verification record](VERIFICATION.en.md) | [验收记录](VERIFICATION.md) |
 
-- `index.html` 是手册入口。`docs/handbook.md` 为 GitHub 可直接阅读的正文。
-- `prototype/` 是纯静态浏览器应用，包含页面、脚本和样式。
-- `assets/` 存放架构图、界面示意和手册样式。`downloads/` 存放可转交的文件。
-- 在当前目录使用静态 HTTP 服务即可预览。公开网站使用同一份页面资源。
+[Download both languages in one ZIP · 下载中英双语完整交付包](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/downloads/Bedrock_Gateway_Handoff.zip)
 
-发布范围为产品与工程设计和模拟数据。真实线路、AWS 账单与生产并发以手册的上线证据为准。
+**Try the prototype.** In Overview, send a sample request twice with the same idempotency key. In Customers & limits, change a budget. In Billing, import the sample AWS Cost and Usage Report (CUR) and export one customer's CSV. The demo uses fictional data stored in your browser. The pilot covers actual AWS charges and Dubai egress.
+
+**试用原型。** 在运营总览用同一幂等键提交两次请求，到客户与额度页调整预算，再在账单核对页导入示例 CUR 并导出单个客户的 CSV。原型使用保存在浏览器里的虚构数据，实际 AWS 费用与迪拜线路由部署团队在试点验收。

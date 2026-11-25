@@ -1,5 +1,7 @@
 # Bedrock 多客户服务网关
 
+[English handbook](handbook.en.md) · [提交修改](../CONTRIBUTING.md)
+
 中文工程手册 · v1.1 · 2026-11-25
 
 [在线原型](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/prototype/) · [公开工程手册](https://bedrock-gateway-handbook.bright-bass-8857.chatgpt.site/)

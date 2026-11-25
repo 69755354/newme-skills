@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore customer budgets, fixed Dubai egress routes and billing reconciliation in an interactive Amazon Bedrock gateway demo.">
+  <title>Gateway prototype · Bedrock Console</title>
+  <style>
+:root{--ink:#182c34;--mut:#4e6770;--line:#dce5e6;--nav:#142c35;--teal:#08695c;--pale:#e2f1ec;--red:#963e36;--amber:#885614;--bg:#f4f7f6}*{box-sizing:border-box}body{margin:0;color:var(--ink);font:15px/1.55 Inter,"Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg)}button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}button,a,input,select{outline-offset:3px}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #318f98}button{border:1px solid #c8d4d5;background:#fff;padding:7px 13px;border-radius:7px;font-weight:600;line-height:1.4}button:hover{background:#edf4f2}.mainBtn{background:var(--teal);border-color:var(--teal);color:white}.mainBtn:hover{background:#034f46}.danger{color:var(--red)}.shell{display:grid;grid-template-columns:216px minmax(0,1fr);min-height:100vh}.side{background:var(--nav);color:#e6eeed;padding:28px 15px;display:flex;flex-direction:column;gap:28px}.brand{padding:1px 6px;display:flex;align-items:center;gap:11px;font-size:18px;font-weight:700;white-space:nowrap}.brandmark{width:30px;height:30px;border:2px solid #b7e7d8;border-radius:8px;display:grid;place-items:center;color:#b7e7d8}.side nav{display:grid;gap:6px}.side nav button{border:0;background:none;text-align:left;color:#c5d4d4;padding:10px 12px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500}.side nav button.active{color:white;background:#2e4c51;box-shadow:inset 3px 0 #93dcbf}.side nav button:hover{background:#28434b}.ico{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.sidefoot{margin-top:auto;color:#b3c9c8;padding:14px 8px 0;font-size:12px}.workspace{min-width:0}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px clamp(18px,3.4vw,48px);background:white;border-bottom:1px solid var(--line);font-size:13px}.top span{display:flex;gap:8px;align-items:center}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#459987}.top button{font-size:12px;padding:5px 9px}.inner{max-width:1440px;padding:30px clamp(18px,3.4vw,48px) 36px;margin:auto}h1,h2,h3,p{margin:0}h1{font-size:clamp(26px,2.4vw,34px);letter-spacing:-1.4px;line-height:1.35}h2{font-size:18px;letter-spacing:-.4px}h3{font-size:16px}.title,.capHead,.rowHead,.actions,.btm,.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.title{margin-bottom:23px}.title p,.small{color:var(--mut);font-size:13px}.title p{margin-top:4px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}.card,.panel{background:white;border:1px solid var(--line);border-radius:12px}.card{padding:17px 20px}.card .label{font-size:13px;color:var(--mut);margin-bottom:6px}.metric{font-size:clamp(25px,2.5vw,35px);line-height:1.22;letter-spacing:-1.2px;font-weight:650;font-variant-numeric:tabular-nums}.metric small{font-size:15px;color:var(--mut);font-weight:500;letter-spacing:0;margin-left:5px}.hint{font-size:12px;color:var(--mut);margin-top:7px}.panel{padding:19px 21px;margin-bottom:18px;min-width:0}.split{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(235px,1fr);gap:16px}.split .panel{margin:0}.rowHead{margin-bottom:13px}.type{font-size:12px;color:var(--mut);font-weight:500}.serviceRow{display:grid;grid-template-columns:minmax(110px,1.18fr) minmax(95px,1fr) minmax(75px,.6fr);gap:15px;align-items:center;border-top:1px solid var(--line);padding:13px 0}.serviceRow:last-child{padding-bottom:4px}.nameBtn{background:none;border:0;color:var(--teal);padding:0;text-align:left}.nameBtn:hover{text-decoration:underline;background:none}.sub{display:block;color:var(--mut);font-size:12px}.money{font-variant-numeric:tabular-nums;white-space:nowrap}.bar{background:#e6edeb;border-radius:8px;overflow:hidden;height:6px;margin:4px 0}.bar i{display:block;background:#318775;height:100%;border-radius:8px}.badge{display:inline-block;border-radius:4px;font-size:12px;line-height:1.5;padding:2px 7px;white-space:nowrap;font-weight:570}.ok{color:#14584b;background:#e1f0ea}.warn{color:#714b10;background:#fff0ce}.bad{color:#91372f;background:#fbe7e5}.neutral{color:#405960;background:#edf1f1}.routeRow,.eventRow{padding:10px 0;border-top:1px solid var(--line);display:flex;gap:12px;justify-content:space-between;align-items:center}.compact{font:13px/1.55 "IBM Plex Mono","Noto Sans Mono CJK SC",monospace}.form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;align-items:end}label{display:grid;gap:5px;color:var(--mut);font-size:13px}input,select{min-width:0;max-width:100%;background:#fff;border:1px solid #b9cacc;border-radius:6px;padding:8px}input[type=checkbox]{width:auto;min-height:auto}.toolbar{margin:12px 0}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.tabs button.cur{background:var(--pale);border-color:#78a79c}.band{padding:10px 14px;border-left:3px solid #77b1a1;background:#edf5f2;color:#2a5048;margin-top:12px;font-size:13px;border-radius:2px}.scroller{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;text-align:left;font-variant-numeric:tabular-nums}th,td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:12px;font-weight:550;color:var(--mut)}td:first-child,th:first-child{padding-left:0}.sp{height:17px}.list{display:grid;gap:7px}.two{display:grid;grid-template-columns:1fr 1fr;gap:13px}.right{justify-content:flex-end}.notice{color:var(--mut);margin:7px 0 12px;font-size:13px}.pick{font-size:14px;width:auto}.feedback{color:#174d40;background:#e0f1e7;padding:9px 14px;border-radius:6px;margin-bottom:14px;border:1px solid #b9dbcd;font-size:14px}.feedback.err{color:#7c3028;background:#fae9e6;border-color:#e6c6c0}.feedback:empty{display:none}.last{margin-bottom:0}.footer{color:var(--mut);font-size:12px;margin-top:20px}.sidefoot div{border-top:1px solid #426068;padding-top:12px}dialog{width:min(400px,calc(100% - 32px));border:1px solid #b6c8c9;border-radius:12px;padding:23px;color:var(--ink)}dialog p{margin:8px 0 18px}dialog::backdrop{background:#10293073}
+@media(max-width:980px){.shell{grid-template-columns:181px minmax(0,1fr)}.split{grid-template-columns:1fr}.panel,.card{padding:15px}.inner{padding-top:20px}}
+@media(max-width:700px){.shell{display:block}.side{padding:10px 12px;gap:7px}.brand{font-size:15px}.brandmark{width:22px;height:22px;border-radius:5px}.brandmark .ico{width:14px}.side nav{display:flex;overflow-x:auto;gap:4px;padding-bottom:2px}.side nav button{padding:6px 8px;font-size:12px;flex:none}.side nav .ico,.sidefoot{display:none}.side nav button.active{box-shadow:inset 0 -2px #93dcbf}.top{padding:9px 14px;font-size:11px}.inner{padding:17px 12px 25px}.cards{gap:7px;margin-bottom:12px}.card{padding:10px}.metric{font-size:22px}.metric small{font-size:11px}.card .label,.hint{font-size:11px}.panel{padding:13px}.title{margin-bottom:15px}.form,.two{grid-template-columns:1fr 1fr}.serviceRow{gap:8px}.eventRow{align-items:start}.eventRow .badge{font-size:11px}.sp{height:12px}.sub{font-size:11px}}
+@media(max-width:410px){.form{grid-template-columns:1fr}.metric{font-size:20px}.hint{line-height:1.4}.serviceRow{grid-template-columns:1.08fr 1.1fr auto}.title{align-items:start}}
+@media print{.side,.top,.actions,.footer,button{display:none}.shell{display:block}.inner{padding:0}}
+
+.top a{color:#0c5b50;text-decoration:underline;text-underline-offset:3px}.feedback:focus{outline:0}.nojs{max-width:70rem;margin:2rem auto;background:white;padding:1rem}.nojs img{width:100%;height:auto}dialog:not([open]){display:none}
+@media(max-width:700px){.side nav button{min-height:38px}.top button,input,select{min-height:36px}.inner{overflow-wrap:anywhere}.metric,.money{overflow-wrap:normal}}
+</style><style>:root { color-scheme: light; }
+.top, .top > span { flex-wrap: wrap; }
+.top a { white-space: nowrap; }
+.top .dot { flex: 0 0 8px; }
+.title select { width: min(100%, 18rem); }
+.side nav button { line-height: 1.35; }
+.serviceRow > * { min-width: 0; }
+.serviceRow .badge { max-width: 100%; white-space: normal; }
+.card .metric, .money { font-variant-numeric: tabular-nums; }
+.scroller { max-width: 100%; }
+@media (max-width: 700px) {
+  .side nav { flex-wrap: wrap; overflow: visible; }
+  .side nav button { min-height: 36px; padding: 4px 8px; }
+  .side { gap: 5px; }
+  .top { column-gap: 8px; row-gap: 5px; }
+  .top > span { column-gap: 8px; row-gap: 3px; }
+  .top button { min-height: 32px; }
+  .inner { overflow-wrap: break-word; }
+  .cards { align-items: stretch; }
+  .card { padding: 9px; }
+  .card .label { line-height: 1.3; min-height: 2.6em; }
+  .metric { letter-spacing: -.7px; }
+  .serviceRow { grid-template-columns: minmax(0, 1.25fr) minmax(90px, 1fr) minmax(50px, .72fr); align-items: center; }
+  .serviceRow .small { font-size: 12px; }
+  .routeRow { align-items: flex-start; }
+  .routeRow > .actions { justify-content: flex-end; }
+  .rowHead > span.type { line-height: 1.3; }
+  .form label, .form > div { min-width: 0; }
+  .scroller:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
+  .brand, .card .label { overflow-wrap: normal; }
+}
+@media (max-width: 425px) {
+  .top { align-items: start; }
+  .top > span:first-child { flex: 1 1 155px; }
+  .top > span:last-child { justify-content: flex-end; text-align: right; }
+  .serviceRow .money { white-space: normal; }
+  .serviceRow .nameBtn { line-height: 1.35; }
+  .two { column-gap: 8px; }
+  .title h1 { font-size: 26px; line-height: 1.22; }
+  .metric { font-size: clamp(16px, 4.75vw, 21px); }
+  .cards { gap: 6px; }
+}
+</style></head>
+<body>
+  <div id="app">
+    <main class="nojs">
+      <h1>Bedrock Console</h1>
+      <p>This interactive demo requires JavaScript. <a href="Bedrock_Gateway_Design_EN.pdf">Read the product design</a> or <a href="Bedrock_Gateway_Prototype.html" lang="zh-CN" hreflang="zh-CN">中文</a>.</p>
+    </main>
+  </div>
+  <dialog id="confirmBox" aria-labelledby="confirmTitle" aria-describedby="confirmText">
+    <h2 id="confirmTitle"></h2>
+    <p id="confirmText"></p>
+    <div class="actions right">
+      <button type="button" id="cancelBtn">Cancel</button>
+      <button type="button" id="confirmBtn" class="mainBtn">Confirm</button>
+    </div>
+  </dialog>
+<script>
+'use strict';
+const demoDay='2026-11-25', storageKey='bedrock-web-demo-en-v1';
+const routeData=[['DXB-01','192.0.2.10'],['DXB-02','198.51.100.20'],['DXB-03','203.0.113.30']];
+const profiles=['Customer A · Document labeling','Customer B · Quality review','Customer C · Data extraction'];
+function seed(){return {n:2,up:[true,true,true],t:[
+{id:'TEN-017',name:profiles[0],role:'svc-label-a',services:[{id:'label',name:'Document labeling',day:8500,used:4180,hold:500},{id:'review',name:'Sample review',day:3000,used:2140,hold:0}],profile:'Linked',day:10000,mo:200000,used:6320,month:86240,hold:500,open:1,conc:8,rpm:120,net:0,backup:false,spare:-1,state:'Active'},
+{id:'TEN-024',name:profiles[1],role:'svc-review-b',services:[{id:'review',name:'Quality review',day:7500,used:1840,hold:0}],profile:'Linked',day:7500,mo:150000,used:1840,month:48210,hold:0,open:0,conc:4,rpm:60,net:0,backup:true,spare:1,state:'Active'},
+{id:'TEN-031',name:profiles[2],role:'svc-extract-c',services:[{id:'extract',name:'Data extraction',day:5000,used:1120,hold:0}],profile:'Linked',day:5000,mo:90000,used:1120,month:27110,hold:0,open:0,conc:3,rpm:60,net:0,backup:false,spare:-1,state:'Active'}],
+events:[{id:'E-0001',time:'09:00:00',tenant:'System',op:'Demo snapshot loaded',detail:'Both egress routes belong to the approved set.'}],holds:[],receipts:{},usageTimes:[[],[],[]],reconciled:false,seq:1};}
+function loadDemo(){
+ try{
+  const previous=JSON.parse(localStorage.getItem(storageKey));
+  if(previous && Array.isArray(previous.t) && previous.t.length===3 &&
+     previous.t.every(t=>Array.isArray(t.services) && t.services.length>0) &&
+     Array.isArray(previous.up) && Array.isArray(previous.usageTimes) &&
+     Array.isArray(previous.holds) && Array.isArray(previous.events) && previous.receipts) return previous;
+ }catch(_){}
+ return seed();
+}
+let db=loadDemo();
+let page='overview',sel=0,portal=false,msg='',err=false,proc=null;const sim={idx:0,service:0,amount:'2.50',key:'REQ-1001',outcome:'Completed'};
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(db))}catch(_){}}
+const icons={overview:'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',tenants:'M3 20v-2c0-3 3-5 6-5s6 2 6 5v2 M9 10a3 3 0 1 0 0-6 3 3 0 1 0 0 6 M15 6c4-1 5 5 1 6 M17 15c3 0 4 2 4 4',egress:'M4 12h11 M11 7l5 5-5 5 M17 4h4v16h-4',billing:'M5 4h14v17l-3-2-4 2-4-2-3 2z M8 8h8 M8 12h6',audit:'M5 3h14v18H5z M8 8h8 M8 12h8 M8 16h5',logo:'M4 15l5-7 4 7 6-9'};
+function ic(k){return '<svg aria-hidden="true" class="ico" viewBox="0 0 24 24"><path d="'+icons[k]+'"/></svg>'}
+const pages={overview:'Overview',tenants:'Customers & limits',egress:'Dubai egress',billing:'Billing',audit:'Audit log'};
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const usd=c=>'$'+(c/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function moneyIn(s){const v=String(s).trim();if(!/^\d{1,7}(\.\d{1,2})?$/.test(v))return NaN;const a=v.split('.');return Number(a[0])*100+Number((a[1]||'').padEnd(2,'0'))}
+function effective(v){return Math.floor(v*9/10)}
+function room(t){return Math.max(0,Math.min(effective(t.day)-t.used-t.hold,effective(t.mo)-t.month-t.hold))}
+function serviceRoom(t,s){return Math.max(0,Math.min(room(t),effective(s.day)-s.used-s.hold))}
+function percent(t){return Math.min(100,Math.round((t.used+t.hold)/Math.max(1,effective(t.day))*100))}
+function badge(s,cl){return '<span class="badge '+(cl||'neutral')+'">'+esc(s)+'</span>'}
+function state(t){return badge(t.state,t.state==='Active'?'ok':t.state==='Provider restricted'?'bad':'warn')}
+function card(label,value,note){return '<div class="card"><div class="label">'+label+'</div><div class="metric">'+value+'</div><div class="hint">'+note+'</div></div>'}
+function title(h,sub,act){return '<div class="title"><div><h1>'+h+'</h1><p>'+sub+'</p></div>'+(act||'')+'</div>'}
+function log(tenant,op,detail){db.seq++;db.events.unshift({id:'E-'+String(db.seq).padStart(4,'0'),time:new Date().toISOString().slice(11,19),tenant,op,detail})}
+function tell(s,bad){msg=s;err=!!bad;save();render()}
+function nav(k){page=k;msg='';render()}
+function pick(i){sel=Number(i);msg='';render()}
+function openTenant(i){sel=i;nav('tenants')}
+function routePick(t){if(t.net<db.n&&db.up[t.net])return t.net;if(t.backup&&t.spare!==t.net&&t.spare>=0&&t.spare<db.n&&db.up[t.spare])return t.spare;return -1}
+function options(which){return db.t.map((t,i)=>'<option value="'+i+'" '+(i===which?'selected':'')+'>'+esc(t.name)+'</option>').join('')}
+function render(){const navs=Object.entries(pages).map(([k,v])=>'<button type="button" data-nav="'+k+'" class="'+(page===k?'active':'')+'">'+ic(k)+v+'</button>').join('');
+document.getElementById('app').innerHTML='<div class="shell"><aside class="side"><div class="brand"><span class="brandmark">'+ic('logo')+'</span>Bedrock Console</div><nav aria-label="Main navigation">'+(portal?'<button class="active">'+ic('overview')+'My services</button>':navs)+'</nav><div class="sidefoot"><div>Service and billing times use UTC.</div></div></aside><div class="workspace"><div class="top"><span><a href="Bedrock_Gateway_Design_EN.pdf" lang="en">Handbook</a><a href="Bedrock_Gateway_Prototype.html" lang="zh-CN" hreflang="zh-CN" aria-label="Switch to Chinese">中文</a><i class="dot"></i>Demo data</span><span>'+(portal?'Customer view':'Operator workspace')+' <button data-action="'+(portal?'leave-portal':'reset-demo')+'">'+(portal?'Back to operator view':'Reset demo')+'</button></span></div><main class="inner"><div id="feedback" class="feedback '+(err?'err':'')+'" role="status">'+esc(msg)+'</div>'+(portal?portalPage():({overview,tenants,egress,billing,audit}[page])())+'<div class="footer">This demo stores sample data in this browser. All amounts are in USD.</div></main></div></div>';
+}
+function overview(){const total=db.t.reduce((a,t)=>a+t.used,0),up=db.up.slice(0,db.n).filter(Boolean).length;
+return title('Overview','Snapshot '+demoDay+' UTC')+'<div class="cards">'+card('Estimated spend today',usd(total),'Settled sample requests')+card('Dubai routes online',up+'<small>/ '+db.n+'</small>','Approved fixed IPv4 addresses')+card('Active customers',db.t.filter(t=>t.state==='Active').length+'<small>/ '+db.t.length+'</small>','Tracked by end-customer organization')+'</div><div class="split"><section class="panel"><div class="rowHead"><h2>Customer budgets</h2><span class="type">Charged + reserved / effective daily cap</span></div>'+db.t.map((t,i)=>'<div class="serviceRow"><div><button class="nameBtn" data-action="open-tenant" data-index="'+i+'">'+esc(t.name)+'</button><span class="sub">'+t.id+'</span></div><div><span class="small money">'+usd(t.used+t.hold)+' / '+usd(effective(t.day))+'</span><div class="bar"><i style="width:'+percent(t)+'%"></i></div></div><div>'+state(t)+'</div></div>').join('')+'</section><section class="panel"><div class="rowHead"><h2>Fixed egress routes</h2><button data-action="egress">Manage</button></div>'+routeData.slice(0,db.n).map((r,i)=>'<div class="routeRow"><div>'+r[0]+'<span class="sub compact">'+r[1]+'</span></div>'+badge(db.up[i]?'Online':'Offline',db.up[i]?'ok':'bad')+'</div>').join('')+'</section></div><div class="sp"></div>'+simPanel()}
+function simPanel(){return '<section class="panel last"><div class="rowHead"><h2>Test a request</h2><span class="type">Gateway admission and metering</span></div><div class="form"><label>Customer<select id="sTenant" data-field="sim-tenant">'+options(sim.idx)+'</select></label><label>Service<select id="sService" data-field="sim-service">'+db.t[sim.idx].services.map((s,i)=>'<option value="'+i+'" '+(i===sim.service?'selected':'')+'>'+esc(s.name)+'</option>').join('')+'</select></label><label>Maximum reservation (USD)<input id="sAmount" value="'+esc(sim.amount)+'" inputmode="decimal" data-field="sim-amount"></label><label>Idempotency key<input id="sKey" value="'+esc(sim.key)+'" maxlength="40" data-field="sim-key"></label><label>Upstream outcome<select id="sOutcome" data-field="sim-outcome">'+['Completed','Unknown after dispatch','Provider restriction confirmed for this customer'].map(x=>'<option '+(x===sim.outcome?'selected':'')+'>'+x+'</option>').join('')+'</select></label><div><button class="mainBtn" data-action="send-request">Send test request</button></div></div><p class="hint">A completed request charges 80% of the reservation in this demo. Repeat the same key to replay the result.</p></section>'}
+function sendSim(){const t=db.t[sim.idx],amt=moneyIn(sim.amount),key=sim.key.trim();
+if(sim.outcome==='Provider restriction confirmed for this customer'){if(t.state!=='Provider restricted'){t.state='Provider restricted';log(t.id,'Provider restriction','Customer scope confirmed. New calls are frozen. In-flight reservations are retained.')}return tell('403 Customer frozen. Request not sent.',true)}
+if(!Number.isSafeInteger(amt)||amt<=0||!/^[A-Za-z0-9_-]{1,40}$/.test(key))return tell('Enter a positive amount and a valid idempotency key using letters, digits, hyphens or underscores.',true);
+const svc=t.services[sim.service];if(!svc)return tell('The selected service is unavailable for this project.',true);const k=t.id+'|'+svc.id+'|'+key,old=db.receipts[k];if(old){if(old.amount!==amt)return tell('409 This idempotency key was used with different request parameters.',true);return tell('Idempotent replay: '+old.result+'. No new call or charge.')}
+if(t.state!=='Active')return tell('403 Customer paused or restricted by the provider.',true);const r=routePick(t);if(r<0)return tell('503 No approved route is available. Request not sent.',true);
+if(serviceRoom(t,svc)<amt)return tell('429 Available to reserve for this service: '+usd(serviceRoom(t,svc))+'. Request not sent.',true);
+const now=Date.now();db.usageTimes[sim.idx]=db.usageTimes[sim.idx].filter(v=>v>now-60000);
+if(t.open>=t.conc||db.usageTimes[sim.idx].length>=t.rpm)return tell('429 Concurrency or request rate limit reached. Request not sent.',true);
+db.usageTimes[sim.idx].push(now);let res;if(sim.outcome==='Unknown after dispatch'){t.hold+=amt;svc.hold+=amt;t.open++;db.holds.push({tenant:sim.idx,service:sim.service,key,amount:amt});res='202 Outcome pending. Reserved '+usd(amt);log(t.id,'Outcome pending',svc.name+' · '+key+' · '+routeData[r][0]+' · '+usd(amt))}
+else{const actual=Math.ceil(amt*8/10);t.used+=actual;svc.used+=actual;t.month+=actual;res='200 Charged '+usd(actual)+' · '+routeData[r][0];log(t.id,'Request settled',svc.name+' · '+key+' · '+routeData[r][0]+' · '+usd(actual))}
+db.receipts[k]={amount:amt,result:res};tell(res)}
+function tenants(){const t=db.t[sel];return title('Customers & limits','Choose a customer to edit limits or preview their portal.','<select aria-label="Select customer" class="pick" data-field="tenant-filter">'+options(sel)+'</select>')+'<div class="cards">'+card('Charged today',usd(t.used),t.id)+card('Reserved',usd(t.hold),'Includes requests with unknown outcomes')+card('Available to reserve',usd(room(t)),'Lower of remaining daily and monthly budgets')+'</div><section class="panel"><div class="rowHead"><h2>'+esc(t.name)+'</h2>'+state(t)+'</div><div class="two"><div>Gateway IAM role<span class="sub compact">'+t.role+'</span></div><div>Anthropic customer profile<span class="sub">'+t.profile+' (demo)</span></div></div><div class="sp"></div><div class="form"><label>Daily budget (USD)<input id="dayCap" value="'+(t.day/100).toFixed(2)+'" inputmode="decimal"></label><label>Monthly budget (USD)<input id="monthCap" value="'+(t.mo/100).toFixed(2)+'" inputmode="decimal"></label><label>Requests per minute<input id="rpm" type="number" min="1" value="'+t.rpm+'"></label><label>Concurrency limit<input id="conc" type="number" min="1" value="'+t.conc+'"></label><label>Primary route<select id="net">'+routeData.slice(0,db.n).map((r,i)=>'<option value="'+i+'" '+(t.net===i?'selected':'')+'>'+r[0]+'</option>').join('')+'</select></label><label>Route failure policy<select id="backup"><option value="-1" '+(!t.backup?'selected':'')+'>Primary only (stop on failure)</option>'+routeData.slice(0,db.n).map((r,i)=>'<option value="'+i+'" '+(t.backup&&t.spare===i?'selected':'')+'>Backup '+r[0]+'</option>').join('')+'</select></label></div><div class="sp"></div><h3>Service budgets</h3><div class="scroller"><table><tr><th>Service</th><th>Charged today</th><th>Reserved</th><th>Daily budget (USD)</th></tr>'+t.services.map((v,i)=>'<tr><td>'+esc(v.name)+'</td><td>'+usd(v.used)+'</td><td>'+usd(v.hold)+'</td><td><input id="svcCap'+i+'" aria-label="'+esc(v.name)+' daily budget" inputmode="decimal" style="width:100px" value="'+(v.day/100).toFixed(2)+'"></td></tr>').join('')+'</table></div><div class="band">The demo holds back a 10% safety margin. Both the customer cap and the selected service cap apply. Lowering a cap below current usage stops new requests immediately and keeps in-flight reservations.</div><div class="toolbar"><div class="actions"><button class="mainBtn" data-action="save-tenant">Save settings</button><button data-action="pause-tenant" '+(t.state==='Provider restricted'?'disabled':'')+'>'+(t.state==='Paused'?'Resume customer':'Pause customer')+'</button></div><button data-action="show-portal">Preview customer view</button></div></section>'}
+function saveTenant(){const t=db.t[sel],d=moneyIn(document.getElementById('dayCap').value),m=moneyIn(document.getElementById('monthCap').value),c=Number(document.getElementById('conc').value),rp=Number(document.getElementById('rpm').value),nt=Number(document.getElementById('net').value),sp=Number(document.getElementById('backup').value),back=sp>=0;if(![c,rp,d,m].every(v=>Number.isSafeInteger(v)&&v>0)||c>100000||rp>1000000||m<d)return tell('Enter positive budgets and valid positive integers for concurrency and rate. The monthly budget must cover the daily budget.',true);
+const sub=t.services.map((_,i)=>moneyIn(document.getElementById('svcCap'+i).value));if(sub.some(v=>!Number.isSafeInteger(v)||v<=0))return tell('Enter a positive daily budget for each service.',true);
+if(back&&(db.n<2||sp===nt))return tell('Choose a different approved route for the backup.',true);
+confirmAct('Save customer settings','Changes apply immediately to new requests for this customer.',()=>{Object.assign(t,{day:d,mo:m,conc:c,rpm:rp,net:nt,backup:back,spare:sp});t.services.forEach((v,i)=>v.day=sub[i]);log(t.id,'Customer settings updated','Daily '+usd(d)+', monthly '+usd(m)+', primary '+routeData[nt][0]);tell('Customer settings saved.')})}
+function pauseT(){const t=db.t[sel];if(t.state==='Provider restricted')return tell('The provider must lift this restriction before service can resume.',true);const v=t.state==='Paused'?'Active':'Paused';confirmAct(v==='Active'?'Resume customer':'Pause customer','This affects new requests for the selected customer only.',()=>{t.state=v;log(t.id,'Customer status',v);tell('Customer status updated.')})}
+function showPortal(){portal=true;msg='';render()}function leavePortal(){portal=false;msg='';render()}
+function portalPage(){const t=db.t[sel];return title(t.name,'Customer portal · '+t.id)+'<div class="cards">'+card('Estimated spend today',usd(t.used),'Demo date in UTC')+card('In-flight reservations',usd(t.hold),'Awaiting settlement')+card('Available to reserve',usd(room(t)),'Lower of remaining daily and monthly budgets')+'</div><div class="panel"><div class="rowHead"><h2>My services</h2>'+state(t)+'</div><div class="two"><div>Daily budget<span class="sub">'+usd(t.day)+'</span></div><div>Month-to-date estimate<span class="sub">'+usd(t.month)+'</span></div></div><div class="band">Previous billing period '+(db.reconciled?invoice(sel)+' · '+billRow(sel)[3]:'Awaiting reconciliation')+'</div><div class="toolbar"><span class="small">The sample contract itemizes usage charges and the fixed service fee.</span><button data-action="export-own">Export my statement as CSV</button></div></div><div class="panel"><h2>My service history</h2>'+eventList(db.events.filter(e=>e.tenant===t.id))+'</div>'}
+function egress(){return title('Dubai egress','These example IPv4 addresses are reserved for documentation. Before going live, verify the provider’s location evidence and the source IP recorded by AWS.')+'<section class="panel"><div class="rowHead"><h2>Approved addresses</h2><div class="actions"><select id="poolN" aria-label="Approved address count">'+[1,2,3].map(i=>'<option '+(i===db.n?'selected':'')+' value="'+i+'">'+i+(i===1?' route':' routes')+'</option>').join('')+'</select><button data-action="change-count">Apply</button></div></div>'+routeData.slice(0,db.n).map((r,i)=>'<div class="routeRow"><div><strong>'+r[0]+'</strong><span class="sub compact">'+r[1]+' / IPv4</span></div><div class="actions">'+badge(db.up[i]?'Online':'Offline',db.up[i]?'ok':'bad')+'<button data-action="flip-route" data-index="'+i+'">'+(db.up[i]?'Simulate outage':'Restore route')+'</button></div></div>').join('')+'<div class="band">Customers pinned to one route stop sending when it fails. A customer with a backup can use only its approved standby. Provider restrictions and throttling never trigger a route switch.</div></section><section class="panel"><h2>Customer route assignments</h2><div class="scroller"><table><tr><th>Customer</th><th>Primary route</th><th>Backup policy</th><th>Available route</th></tr>'+db.t.map(t=>{const r=routePick(t);return '<tr><td>'+esc(t.name)+'</td><td>'+routeData[t.net][0]+'</td><td>'+(t.backup?'Backup '+routeData[t.spare][0]:'Stop on failure')+'</td><td>'+(r<0?'Stopped':routeData[r][0])+'</td></tr>'}).join('')+'</table></div></section>'}
+function changeN(){const n=Number(document.getElementById('poolN').value);if(db.t.some(t=>t.net>=n||t.backup&&t.spare>=n))return tell('Route conflict. Update the affected primary or backup routes in Customers & limits first.',true);if(n===db.n)return tell('The approved route count is unchanged.');confirmAct('Change approved routes','This updates the pre-registered demo routes. Each customer keeps its configured primary and backup routes.',()=>{db.n=n;log('System','Egress set updated','Approved routes: '+n);tell('Approved route set updated.')})}
+function flipRoute(i){const next=!db.up[i];confirmAct(next?'Restore route':'Simulate route outage','Each customer will use the routes available within its approved set.',()=>{db.up[i]=next;log('System','Route '+(next?'restored':'down'),routeData[i][0]);tell(routeData[i][0]+' is now '+(next?'online.':'offline.'))})}
+const est=[6240,1690,1120],aws=[6240,1840,1120],fees=[2000,1200,1500];function invoice(i){return db.reconciled&&aws[i]===est[i]?usd(aws[i]+fees[i]):'Pending review'}
+function receiptRows(i){const t=db.t[i];return [['Billing date (UTC)','Customer','Customer ID','Currency','Contract usage charges','Fixed service fee','Amount due','Status'],['2026-11-23',t.name,t.id,'USD',db.reconciled?(aws[i]/100).toFixed(2):'Pending',(fees[i]/100).toFixed(2),invoice(i),db.reconciled?billRow(i)[3]:'Awaiting import']]}
+function exportBill(i){if(portal&&sel!==i)return;const rows=receiptRows(i);const csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const url=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='Bill_2026-11-23_'+db.t[i].id+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+function billRow(i){const v=aws[i]-est[i];return [usd(est[i]),usd(aws[i]),usd(v),v!==0?'Discrepancy under review':'Reconciled']}
+function billing(){return title('Billing','Sample billing date · 2026-11-23 UTC','<button class="mainBtn" data-action="reconcile">'+(db.reconciled?'Reimport same version':'Import sample CUR')+'</button>')+'<div class="cards">'+card('Gateway estimate','$90.50','Usage attributed to customers')+card('AWS usage subtotal',db.reconciled?'$92.80':'—','Includes unallocated costs')+card('Unallocated costs',db.reconciled?'$0.80':'—','No verified caller identity')+'</div><section class="panel"><h2>Reconciliation by customer</h2><div class="scroller"><table><tr><th>Customer / caller role</th><th>Gateway estimate</th><th>AWS usage charges</th><th>Difference</th><th>Amount due</th><th>Status</th><th>Statement</th></tr>'+db.t.map((t,i)=>{const b=billRow(i);return '<tr><td>'+esc(t.name)+'<span class="sub compact">'+t.role+'</span></td><td>'+b[0]+'</td><td>'+(db.reconciled?b[1]:'—')+'</td><td>'+(db.reconciled?b[2]:'—')+'</td><td>'+invoice(i)+'</td><td>'+badge(db.reconciled?b[3]:'Awaiting import',db.reconciled&&i!==1?'ok':'warn')+'</td><td><button data-action="export-bill" data-index="'+i+'">Export CSV</button></td></tr>'}).join('')+'</table></div><div class="band">The comparison uses equivalent usage charges. Unallocated costs remain open for review. Customer statements also include the agreed fixed service fee.</div></section><section class="panel"><h2>Requests awaiting settlement</h2><p class="notice">Close each request using a final usage record tied to its request ID. Aggregate CUR data cannot establish the charge for an individual request.</p>'+(db.holds.length?db.holds.map((h,i)=>'<div class="routeRow"><div>'+db.t[h.tenant].id+' / '+esc(h.key)+'<span class="sub">Reserved '+usd(h.amount)+'</span></div><button data-action="settle-hold" data-index="'+i+'">Simulate final usage receipt</button></div>').join(''):'<p class="small">No new requests are awaiting review in this demo.</p>')+'</section>'}
+function reconcile(){if(db.reconciled)return tell('This CUR version was already processed. No duplicate charges were posted.');db.reconciled=true;log('System','Sample CUR reconciled','Version v1 · Attributed difference $1.50 · Unallocated $0.80');tell('Sample period reconciled. One customer discrepancy and one unallocated charge need review.')}
+function settleHold(i){const h=db.holds[i];if(!h)return;confirmAct('Confirm sample final receipt','The sample receipt uses the same request ID and confirms a charge of '+usd(Math.ceil(h.amount*.8))+'.',()=>{const t=db.t[h.tenant],svc=t.services[h.service],act=Math.ceil(h.amount*8/10);t.hold-=h.amount;svc.hold-=h.amount;t.open--;t.used+=act;svc.used+=act;t.month+=act;db.holds.splice(i,1);db.receipts[t.id+'|'+svc.id+'|'+h.key].result='200 Verified '+usd(act);log(t.id,'Pending outcome verified',h.key+' · '+usd(act));tell('The sample receipt has been settled. The unused reservation has been released.')})}
+function eventList(arr){return arr.length?arr.map(e=>'<div class="eventRow"><div><strong>'+esc(e.op)+'</strong><span class="sub">'+esc(e.detail)+'</span></div><div style="text-align:right">'+badge(e.tenant)+'<span class="sub compact">'+esc(e.time)+' UTC</span></div></div>').join(''):'<p class="notice">No events yet.</p>'}
+let auditFilter='All';function audit(){const places=['All','System'].concat(db.t.map(t=>t.id));return title('Audit log','Track simulated configuration changes, upstream calls and manual reconciliation.','<select aria-label="Filter events by scope" data-field="audit-filter">'+places.map(s=>'<option '+(s===auditFilter?'selected':'')+'>'+s+'</option>').join('')+'</select>')+'<section class="panel"><div class="rowHead"><h2>Event timeline</h2><span class="type">Newest first</span></div>'+eventList(db.events.filter(e=>auditFilter==='All'||e.tenant===auditFilter))+'</section>'}
+function confirmAct(t,d,f){proc=f;document.getElementById('confirmTitle').textContent=t;document.getElementById('confirmText').textContent=d;openConfirmation()}
+document.getElementById('confirmBtn').onclick=()=>{closeConfirmation();const fn=proc;proc=null;if(fn)fn()};document.getElementById('cancelBtn').onclick=()=>{proc=null;closeConfirmation()};
+function resetDemo(){confirmAct('Reset this browser’s demo','Restore the original customers, budgets, egress routes and billing examples.',()=>{db=seed();sel=0;page='overview';auditFilter='All';Object.assign(sim,{idx:0,service:0,amount:'2.50',key:'REQ-1001',outcome:'Completed'});tell('Initial demo data restored.')})}
+function openConfirmation(){
+ const dialog=document.getElementById('confirmBox');
+ if(typeof dialog.showModal==='function')dialog.showModal();
+ else dialog.setAttribute('open','');
+}
+function closeConfirmation(){
+ const dialog=document.getElementById('confirmBox');
+ if(typeof dialog.close==='function')dialog.close();
+ else dialog.removeAttribute('open');
+}
+const actions={
+ 'send-request':sendSim,'save-tenant':saveTenant,'pause-tenant':pauseT,'show-portal':showPortal,
+ 'leave-portal':leavePortal,'reset-demo':resetDemo,'change-count':changeN,'reconcile':reconcile,
+ 'egress':()=>nav('egress'),'open-tenant':openTenant,'flip-route':flipRoute,'settle-hold':settleHold,
+ 'export-bill':exportBill,'export-own':()=>exportBill(sel)
+};
+const mount=document.getElementById('app');
+mount.addEventListener('click',event=>{
+ const target=event.target.closest('button');
+ if(!target || target.disabled)return;
+ if(target.dataset.nav){ nav(target.dataset.nav); return; }
+ const handler=actions[target.dataset.action];
+ if(handler)handler(target.dataset.index===undefined?undefined:Number(target.dataset.index));
+});
+mount.addEventListener('change',event=>{
+ const input=event.target;
+ switch(input.dataset.field){
+ case 'tenant-filter':pick(input.value);break;
+ case 'audit-filter':auditFilter=input.value;render();break;
+ case 'sim-tenant':sim.idx=Number(input.value);sim.service=0;render();break;
+ case 'sim-service':sim.service=Number(input.value);break;
+ case 'sim-outcome':sim.outcome=input.value;break;
+ }
+});
+mount.addEventListener('input',event=>{
+ const field=event.target.dataset.field;
+ if(field==='sim-amount')sim.amount=event.target.value;
+ if(field==='sim-key')sim.key=event.target.value;
+});
+render();
+</script></body>
+</html>
